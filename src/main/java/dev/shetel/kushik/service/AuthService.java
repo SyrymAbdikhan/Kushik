@@ -1,10 +1,10 @@
 package dev.shetel.kushik.service;
 
 import dev.shetel.kushik.dto.*;
+import dev.shetel.kushik.mapper.AuthMapper;
 import dev.shetel.kushik.model.enumeration.UserRole;
 import dev.shetel.kushik.security.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final JwtTokenUtil jwtTokenUtil;
     private final UserService userService;
-    private final ModelMapper modelMapper;
+    private final AuthMapper authMapper;
 
     public JwtResponse login(LoginRequest request) {
         final UserDetails userDetails = jwtTokenUtil.authenticate(
@@ -32,10 +32,10 @@ public class AuthService {
             throw new IllegalArgumentException("Admin registration not allowed");
         }
 
-        CreateUserRequest createRequest = modelMapper.map(request, CreateUserRequest.class);
+        CreateUserRequest createRequest = authMapper.toCreateUserRequest(request);
         UserDto user = userService.createUser(createRequest);
         return login(
-                modelMapper.map(request, LoginRequest.class)
+                authMapper.toLoginRequest(request)
         );
     }
 }
