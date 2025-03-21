@@ -1,4 +1,4 @@
-package dev.shetel.kushik.model;
+package dev.shetel.kushik.model.enumeration;
 
 public enum UserRole {
     ADOPTER, SHELTER, ADMIN

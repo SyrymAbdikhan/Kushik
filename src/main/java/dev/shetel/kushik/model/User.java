@@ -1,5 +1,6 @@
 package dev.shetel.kushik.model;
 
+import dev.shetel.kushik.model.enumeration.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

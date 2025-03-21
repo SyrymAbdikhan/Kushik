@@ -1,6 +1,6 @@
 package dev.shetel.kushik.dto;
 
-import dev.shetel.kushik.model.UserRole;
+import dev.shetel.kushik.model.enumeration.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

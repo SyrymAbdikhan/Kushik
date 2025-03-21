@@ -1,5 +1,6 @@
 package dev.shetel.kushik.model;
 
+import dev.shetel.kushik.model.enumeration.ListingStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

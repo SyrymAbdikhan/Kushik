@@ -1,7 +1,7 @@
 package dev.shetel.kushik.init;
 
 import dev.shetel.kushik.model.User;
-import dev.shetel.kushik.model.UserRole;
+import dev.shetel.kushik.model.enumeration.UserRole;
 import dev.shetel.kushik.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

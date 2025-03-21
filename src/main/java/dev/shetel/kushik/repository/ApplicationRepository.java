@@ -1,7 +1,7 @@
 package dev.shetel.kushik.repository;
 
 import dev.shetel.kushik.model.Application;
-import dev.shetel.kushik.model.ApplicationStatus;
+import dev.shetel.kushik.model.enumeration.ApplicationStatus;
 import dev.shetel.kushik.model.Listing;
 import dev.shetel.kushik.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

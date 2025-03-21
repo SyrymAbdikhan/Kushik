@@ -4,7 +4,7 @@ import dev.shetel.kushik.dto.CreateUserRequest;
 import dev.shetel.kushik.dto.UpdateUserRequest;
 import dev.shetel.kushik.dto.UserDto;
 import dev.shetel.kushik.model.User;
-import dev.shetel.kushik.model.UserRole;
+import dev.shetel.kushik.model.enumeration.UserRole;
 import dev.shetel.kushik.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

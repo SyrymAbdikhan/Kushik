@@ -1,7 +1,7 @@
 package dev.shetel.kushik.service;
 
 import dev.shetel.kushik.dto.*;
-import dev.shetel.kushik.model.UserRole;
+import dev.shetel.kushik.model.enumeration.UserRole;
 import dev.shetel.kushik.security.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,6 +1,6 @@
 package dev.shetel.kushik.dto;
 
-import dev.shetel.kushik.model.UserRole;
+import dev.shetel.kushik.model.enumeration.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
