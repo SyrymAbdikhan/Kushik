@@ -1,6 +1,7 @@
 package dev.shetel.kushik.controller;
 
 
+import dev.shetel.kushik.dto.CreateUserRequest;
 import dev.shetel.kushik.dto.UpdateUserRequest;
 import dev.shetel.kushik.dto.UserDto;
 import dev.shetel.kushik.service.UserService;
@@ -46,6 +47,13 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserRequest request) {
+        UserDto user = userService.createUser(request);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping
