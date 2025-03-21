@@ -3,7 +3,6 @@ package dev.shetel.kushik.controller;
 import dev.shetel.kushik.dto.JwtResponse;
 import dev.shetel.kushik.dto.LoginRequest;
 import dev.shetel.kushik.dto.RegistrationRequest;
-import dev.shetel.kushik.dto.UserDto;
 import dev.shetel.kushik.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@Valid @RequestBody RegistrationRequest request) {
+    public ResponseEntity<JwtResponse> register(@Valid @RequestBody RegistrationRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 }
