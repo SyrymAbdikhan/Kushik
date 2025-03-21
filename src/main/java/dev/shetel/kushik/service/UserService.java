@@ -3,6 +3,7 @@ package dev.shetel.kushik.service;
 import dev.shetel.kushik.dto.CreateUserRequest;
 import dev.shetel.kushik.dto.UpdateUserRequest;
 import dev.shetel.kushik.dto.UserDto;
+import dev.shetel.kushik.mapper.UserMapper;
 import dev.shetel.kushik.model.User;
 import dev.shetel.kushik.model.enumeration.UserRole;
 import dev.shetel.kushik.repository.UserRepository;
@@ -21,12 +22,12 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
+    private final UserMapper userMapper;
 
     public UserDto getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email)
-                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(userMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
@@ -45,12 +46,12 @@ public class UserService {
             throw new IllegalArgumentException("Email already registered");
         }
 
-        User user = modelMapper.map(request, User.class);
+        User user = userMapper.toEntity(request);
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole() != null ? request.getRole() : UserRole.ADOPTER);
 
         User savedUser = userRepository.save(user);
-        return modelMapper.map(savedUser, UserDto.class);
+        return userMapper.toDto(savedUser);
     }
 
     @Transactional
@@ -76,18 +77,19 @@ public class UserService {
             user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         }
 
-        return modelMapper.map(userRepository.save(user), UserDto.class);
+        User savedUser = userRepository.save(user);
+        return userMapper.toDto(savedUser);
     }
 
     public UserDto getUserById(Long userId) {
         return userRepository.findById(userId)
-                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(userMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(userMapper::toDto)
                 .toList();
     }
 
