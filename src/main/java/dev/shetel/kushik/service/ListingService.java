@@ -2,7 +2,6 @@ package dev.shetel.kushik.service;
 
 import dev.shetel.kushik.dto.request.CreateListingRequest;
 import dev.shetel.kushik.dto.request.UpdateListingRequest;
-import dev.shetel.kushik.dto.response.ListingDto;
 import dev.shetel.kushik.mapper.ListingMapper;
 import dev.shetel.kushik.model.Listing;
 import dev.shetel.kushik.model.Location;
@@ -11,8 +10,6 @@ import dev.shetel.kushik.model.User;
 import dev.shetel.kushik.model.enumeration.ListingStatus;
 import dev.shetel.kushik.model.enumeration.UserRole;
 import dev.shetel.kushik.repository.ListingRepository;
-import dev.shetel.kushik.repository.LocationRepository;
-import dev.shetel.kushik.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,8 +26,8 @@ public class ListingService {
     private final ListingRepository listingRepository;
     private final ListingMapper listingMapper;
     private final UserService userService;
-    private final TagRepository tagRepository;
-    private final LocationRepository locationRepository;
+    private final TagService tagService;
+    private final LocationService locationService;
 
     @Transactional
     public Listing createListing(CreateListingRequest request) {
@@ -65,12 +62,13 @@ public class ListingService {
         }
 
         if (request.getLocationId() != null) {
-            listing.setLocation(locationRepository.findById(request.getLocationId())
-                    .orElseThrow(() -> new EntityNotFoundException("Location not found")));
+            listing.setLocation(
+                    locationService.getLocationById(request.getLocationId())
+            );
         }
 
         if (request.getTagIdsToAdd() != null) {
-            Set<Tag> newTags = new HashSet<>(tagRepository.findAllById(request.getTagIdsToAdd()));
+            Set<Tag> newTags = new HashSet<>(tagService.getTagByIds(request.getTagIdsToAdd()));
             listing.getTags().addAll(newTags);
         }
 
@@ -98,11 +96,7 @@ public class ListingService {
             return getListings();
         }
 
-        Set<Tag> tags = new HashSet<>(tagRepository.findAllById(tagIds));
-        if (tags.size() != tagIds.size()) {
-            throw new IllegalArgumentException("One or more tags not found");
-        }
-
+        Set<Tag> tags = new HashSet<>(tagService.getTagByIds(tagIds));
         return listingRepository.findByTags(tags);
     }
 
@@ -112,8 +106,7 @@ public class ListingService {
             return getListings();
         }
 
-        Location location = locationRepository.findById(locationId)
-                .orElseThrow(() -> new EntityNotFoundException("Location not found"));
+        Location location = locationService.getLocationById(locationId);
         return listingRepository.findByLocation(location);
     }
 

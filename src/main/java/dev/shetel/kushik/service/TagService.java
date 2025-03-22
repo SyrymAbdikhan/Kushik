@@ -4,10 +4,12 @@ import dev.shetel.kushik.dto.request.CreateTagRequest;
 import dev.shetel.kushik.mapper.TagMapper;
 import dev.shetel.kushik.model.Tag;
 import dev.shetel.kushik.repository.TagRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +40,13 @@ public class TagService {
 
     public List<Tag> getCharacteristicTags() {
         return tagRepository.findByIsPrimary(false);
+    }
+
+    public List<Tag> getTagByIds(Set<Long> ids) {
+        List<Tag> foundTags = tagRepository.findAllById(ids);
+        if(foundTags.size() != ids.size()) {
+            throw new EntityNotFoundException("Not all specified tag IDs exist");
+        }
+        return foundTags;
     }
 }
