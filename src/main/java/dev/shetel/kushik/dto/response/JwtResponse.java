@@ -1,4 +1,4 @@
-package dev.shetel.kushik.dto;
+package dev.shetel.kushik.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

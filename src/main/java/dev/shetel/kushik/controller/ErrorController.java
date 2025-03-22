@@ -1,6 +1,6 @@
 package dev.shetel.kushik.controller;
 
-import dev.shetel.kushik.dto.ApiErrorResponse;
+import dev.shetel.kushik.dto.response.ApiErrorResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,9 @@
 package dev.shetel.kushik.controller;
 
 
-import dev.shetel.kushik.dto.CreateUserRequest;
-import dev.shetel.kushik.dto.UpdateUserRequest;
-import dev.shetel.kushik.dto.UserDto;
+import dev.shetel.kushik.dto.request.CreateUserRequest;
+import dev.shetel.kushik.dto.request.UpdateUserRequest;
+import dev.shetel.kushik.dto.response.UserDto;
 import dev.shetel.kushik.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

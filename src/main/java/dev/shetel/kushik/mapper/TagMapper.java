@@ -1,7 +1,7 @@
 package dev.shetel.kushik.mapper;
 
-import dev.shetel.kushik.dto.CreateTagRequest;
-import dev.shetel.kushik.dto.TagDto;
+import dev.shetel.kushik.dto.request.CreateTagRequest;
+import dev.shetel.kushik.dto.response.TagDto;
 import dev.shetel.kushik.model.Tag;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package dev.shetel.kushik.mapper;
 
-import dev.shetel.kushik.dto.CreateUserRequest;
-import dev.shetel.kushik.dto.LoginRequest;
-import dev.shetel.kushik.dto.RegistrationRequest;
+import dev.shetel.kushik.dto.request.CreateUserRequest;
+import dev.shetel.kushik.dto.request.LoginRequest;
+import dev.shetel.kushik.dto.request.RegistrationRequest;
 import dev.shetel.kushik.model.enumeration.UserRole;
 import org.springframework.stereotype.Component;
 

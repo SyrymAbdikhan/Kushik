@@ -1,7 +1,7 @@
 package dev.shetel.kushik.controller;
 
-import dev.shetel.kushik.dto.CreateTagRequest;
-import dev.shetel.kushik.dto.TagDto;
+import dev.shetel.kushik.dto.request.CreateTagRequest;
+import dev.shetel.kushik.dto.response.TagDto;
 import dev.shetel.kushik.service.TagService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

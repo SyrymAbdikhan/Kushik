@@ -1,8 +1,8 @@
 package dev.shetel.kushik.service;
 
-import dev.shetel.kushik.dto.CreateUserRequest;
-import dev.shetel.kushik.dto.UpdateUserRequest;
-import dev.shetel.kushik.dto.UserDto;
+import dev.shetel.kushik.dto.request.CreateUserRequest;
+import dev.shetel.kushik.dto.request.UpdateUserRequest;
+import dev.shetel.kushik.dto.response.UserDto;
 import dev.shetel.kushik.mapper.UserMapper;
 import dev.shetel.kushik.model.User;
 import dev.shetel.kushik.model.enumeration.UserRole;

@@ -1,7 +1,7 @@
 package dev.shetel.kushik.service;
 
-import dev.shetel.kushik.dto.CreateLocationRequest;
-import dev.shetel.kushik.dto.LocationDto;
+import dev.shetel.kushik.dto.request.CreateLocationRequest;
+import dev.shetel.kushik.dto.response.LocationDto;
 import dev.shetel.kushik.mapper.LocationMapper;
 import dev.shetel.kushik.model.Location;
 import dev.shetel.kushik.repository.LocationRepository;

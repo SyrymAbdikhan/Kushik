@@ -1,7 +1,7 @@
 package dev.shetel.kushik.mapper;
 
-import dev.shetel.kushik.dto.CreateUserRequest;
-import dev.shetel.kushik.dto.UserDto;
+import dev.shetel.kushik.dto.request.CreateUserRequest;
+import dev.shetel.kushik.dto.response.UserDto;
 import dev.shetel.kushik.model.User;
 import dev.shetel.kushik.model.enumeration.UserRole;
 import lombok.RequiredArgsConstructor;

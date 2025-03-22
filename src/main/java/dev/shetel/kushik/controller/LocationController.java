@@ -1,7 +1,7 @@
 package dev.shetel.kushik.controller;
 
-import dev.shetel.kushik.dto.CreateLocationRequest;
-import dev.shetel.kushik.dto.LocationDto;
+import dev.shetel.kushik.dto.request.CreateLocationRequest;
+import dev.shetel.kushik.dto.response.LocationDto;
 import dev.shetel.kushik.service.LocationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

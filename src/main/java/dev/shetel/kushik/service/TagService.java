@@ -1,7 +1,7 @@
 package dev.shetel.kushik.service;
 
-import dev.shetel.kushik.dto.CreateTagRequest;
-import dev.shetel.kushik.dto.TagDto;
+import dev.shetel.kushik.dto.request.CreateTagRequest;
+import dev.shetel.kushik.dto.response.TagDto;
 import dev.shetel.kushik.mapper.TagMapper;
 import dev.shetel.kushik.model.Tag;
 import dev.shetel.kushik.repository.TagRepository;

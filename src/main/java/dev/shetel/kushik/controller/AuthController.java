@@ -1,8 +1,8 @@
 package dev.shetel.kushik.controller;
 
-import dev.shetel.kushik.dto.JwtResponse;
-import dev.shetel.kushik.dto.LoginRequest;
-import dev.shetel.kushik.dto.RegistrationRequest;
+import dev.shetel.kushik.dto.response.JwtResponse;
+import dev.shetel.kushik.dto.request.LoginRequest;
+import dev.shetel.kushik.dto.request.RegistrationRequest;
 import dev.shetel.kushik.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

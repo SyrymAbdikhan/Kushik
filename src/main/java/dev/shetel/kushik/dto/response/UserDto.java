@@ -1,4 +1,4 @@
-package dev.shetel.kushik.dto;
+package dev.shetel.kushik.dto.response;
 
 import dev.shetel.kushik.model.enumeration.UserRole;
 import lombok.AllArgsConstructor;

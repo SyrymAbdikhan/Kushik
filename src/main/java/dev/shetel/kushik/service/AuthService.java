@@ -1,6 +1,10 @@
 package dev.shetel.kushik.service;
 
-import dev.shetel.kushik.dto.*;
+import dev.shetel.kushik.dto.request.CreateUserRequest;
+import dev.shetel.kushik.dto.request.LoginRequest;
+import dev.shetel.kushik.dto.request.RegistrationRequest;
+import dev.shetel.kushik.dto.response.JwtResponse;
+import dev.shetel.kushik.dto.response.UserDto;
 import dev.shetel.kushik.mapper.AuthMapper;
 import dev.shetel.kushik.model.enumeration.UserRole;
 import dev.shetel.kushik.security.JwtTokenUtil;

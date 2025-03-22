@@ -1,4 +1,4 @@
-package dev.shetel.kushik.dto;
+package dev.shetel.kushik.dto.request;
 
 import dev.shetel.kushik.model.enumeration.UserRole;
 import jakarta.validation.constraints.Email;
