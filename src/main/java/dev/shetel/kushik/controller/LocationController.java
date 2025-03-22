@@ -2,6 +2,8 @@ package dev.shetel.kushik.controller;
 
 import dev.shetel.kushik.dto.request.CreateLocationRequest;
 import dev.shetel.kushik.dto.response.LocationDto;
+import dev.shetel.kushik.mapper.LocationMapper;
+import dev.shetel.kushik.model.Location;
 import dev.shetel.kushik.service.LocationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,21 +19,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocationController {
     private final LocationService locationService;
+    private final LocationMapper locationMapper;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<LocationDto> createLocation(
             @Valid @RequestBody CreateLocationRequest request
     ) {
-        LocationDto location = locationService.createLocation(request);
+        Location location = locationService.createLocation(request);
+        LocationDto locationDto = locationMapper.toDto(location);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(location);
+                .body(locationDto);
     }
 
     @GetMapping
     public ResponseEntity<List<LocationDto>> getAllLocations() {
-        List<LocationDto> locations = locationService.getLocations();
-        return ResponseEntity.ok(locations);
+        List<Location> locations = locationService.getLocations();
+        List<LocationDto> locationDtos = locations.stream()
+                .map(locationMapper::toDto).toList();
+        return ResponseEntity.ok(locationDtos);
     }
 
     @DeleteMapping("/{locationId}")

@@ -1,7 +1,6 @@
 package dev.shetel.kushik.service;
 
 import dev.shetel.kushik.dto.request.CreateLocationRequest;
-import dev.shetel.kushik.dto.response.LocationDto;
 import dev.shetel.kushik.mapper.LocationMapper;
 import dev.shetel.kushik.model.Location;
 import dev.shetel.kushik.repository.LocationRepository;
@@ -19,7 +18,7 @@ public class LocationService {
     private final LocationMapper locationMapper;
 
     @Transactional
-    public LocationDto createLocation(CreateLocationRequest request) {
+    public Location createLocation(CreateLocationRequest request) {
         if (locationRepository.existsByCityAndCountryCode(
                 request.getCity(),
                 request.getCountryCode().toUpperCase()
@@ -28,21 +27,16 @@ public class LocationService {
         }
 
         Location location = locationMapper.toEntity(request);
-        Location savedLocation = locationRepository.save(location);
-        return locationMapper.toDto(savedLocation);
+        return locationRepository.save(location);
     }
 
-    public List<LocationDto> getLocations() {
-        return locationRepository.findAll()
-                .stream()
-                .map(locationMapper::toDto)
-                .toList();
+    public List<Location> getLocations() {
+        return locationRepository.findAll();
     }
 
-    public LocationDto getLocationById(Long id) {
-        Location location = locationRepository.findById(id)
+    public Location getLocationById(Long id) {
+        return locationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Location not found"));
-        return locationMapper.toDto(location);
     }
 
     @Transactional
