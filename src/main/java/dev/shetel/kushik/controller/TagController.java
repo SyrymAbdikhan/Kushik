@@ -2,6 +2,8 @@ package dev.shetel.kushik.controller;
 
 import dev.shetel.kushik.dto.request.CreateTagRequest;
 import dev.shetel.kushik.dto.response.TagDto;
+import dev.shetel.kushik.mapper.TagMapper;
+import dev.shetel.kushik.model.Tag;
 import dev.shetel.kushik.service.TagService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TagController {
     private final TagService tagService;
+    private final TagMapper tagMapper;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<TagDto> createTag(@Valid @RequestBody CreateTagRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(tagService.createTag(request));
+        Tag tag = tagService.createTag(request);
+        TagDto tagDto = tagMapper.toDto(tag);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tagDto);
     }
 
     @DeleteMapping("/{tagId}")
@@ -34,16 +38,25 @@ public class TagController {
 
     @GetMapping
     public ResponseEntity<List<TagDto>> getAllTags() {
-        return ResponseEntity.ok(tagService.getAllTags());
+        List<Tag> tags = tagService.getAllTags();
+        List<TagDto> tagDtos = tags.stream()
+                .map(tagMapper::toDto).toList();
+        return ResponseEntity.ok(tagDtos);
     }
 
     @GetMapping("/primary")
     public ResponseEntity<List<TagDto>> getPrimaryTags() {
-        return ResponseEntity.ok(tagService.getPrimaryTags());
+        List<Tag> tags = tagService.getPrimaryTags();
+        List<TagDto> tagDtos = tags.stream()
+                .map(tagMapper::toDto).toList();
+        return ResponseEntity.ok(tagDtos);
     }
 
     @GetMapping("/characteristics")
     public ResponseEntity<List<TagDto>> getCharacteristicTags() {
-        return ResponseEntity.ok(tagService.getCharacteristicTags());
+        List<Tag> tags = tagService.getCharacteristicTags();
+        List<TagDto> tagDtos = tags.stream()
+                .map(tagMapper::toDto).toList();
+        return ResponseEntity.ok(tagDtos);
     }
 }
