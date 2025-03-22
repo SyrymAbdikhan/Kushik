@@ -70,7 +70,6 @@ public class ListingService {
         }
 
         if (request.getTagIdsToAdd() != null) {
-            // TODO: remove hashset
             Set<Tag> newTags = new HashSet<>(tagRepository.findAllById(request.getTagIdsToAdd()));
             listing.getTags().addAll(newTags);
         }
@@ -103,7 +102,6 @@ public class ListingService {
             return getListings();
         }
 
-        // TODO: remove hashset
         Set<Tag> tags = new HashSet<>(tagRepository.findAllById(tagIds));
         if (tags.size() != tagIds.size()) {
             throw new IllegalArgumentException("One or more tags not found");

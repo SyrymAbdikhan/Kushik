@@ -1,9 +1,10 @@
 package dev.shetel.kushik.controller;
 
-
 import dev.shetel.kushik.dto.request.CreateUserRequest;
 import dev.shetel.kushik.dto.request.UpdateUserRequest;
 import dev.shetel.kushik.dto.response.UserDto;
+import dev.shetel.kushik.mapper.UserMapper;
+import dev.shetel.kushik.model.User;
 import dev.shetel.kushik.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping("/{userId}")
     @PreAuthorize("hasRole('ADMIN') or @userService.isCurrentUser(#userId)")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
-        UserDto user = userService.getUserById(userId);
-        return ResponseEntity.ok(user);
+        User user = userService.getUserById(userId);
+        UserDto userDto = userMapper.toDto(user);
+        return ResponseEntity.ok(userDto);
     }
 
     @PutMapping("/{userId}")
@@ -32,8 +35,9 @@ public class UserController {
             @PathVariable Long userId,
             @Valid @RequestBody UpdateUserRequest request
     ) {
-        UserDto updatedUser = userService.updateUser(userId, request);
-        return ResponseEntity.ok(updatedUser);
+        User updatedUser = userService.updateUser(userId, request);
+        UserDto userDto = userMapper.toDto(updatedUser);
+        return ResponseEntity.ok(userDto);
     }
 
     @DeleteMapping("/{userId}")
@@ -46,14 +50,17 @@ public class UserController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserRequest request) {
-        UserDto user = userService.createUser(request);
-        return ResponseEntity.ok(user);
+        User user = userService.createUser(request);
+        UserDto userDto = userMapper.toDto(user);
+        return ResponseEntity.ok(userDto);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<UserDto> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+        List<User> users = userService.getAllUsers();
+        List<UserDto> userDtos = users.stream()
+                .map(userMapper::toDto).toList();
+        return ResponseEntity.ok(userDtos);
     }
 }

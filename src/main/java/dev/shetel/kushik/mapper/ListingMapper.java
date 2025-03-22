@@ -1,7 +1,6 @@
 package dev.shetel.kushik.mapper;
 
 import dev.shetel.kushik.dto.request.CreateListingRequest;
-import dev.shetel.kushik.dto.request.UpdateListingRequest;
 import dev.shetel.kushik.dto.response.ListingDto;
 import dev.shetel.kushik.model.Listing;
 import dev.shetel.kushik.model.Tag;
@@ -52,8 +51,6 @@ public class ListingMapper {
                 .build();
 
         if (request.getTagIds() != null) {
-            // TODO: remove hashset
-            //   change `tagRepository.findAllById` return type to `Set<Tag>`
             Set<Tag> tags = new HashSet<>(tagRepository.findAllById(request.getTagIds()));
             listing.setTags(tags);
         }

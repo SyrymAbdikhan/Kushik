@@ -4,7 +4,6 @@ import dev.shetel.kushik.dto.request.CreateUserRequest;
 import dev.shetel.kushik.dto.request.LoginRequest;
 import dev.shetel.kushik.dto.request.RegistrationRequest;
 import dev.shetel.kushik.dto.response.JwtResponse;
-import dev.shetel.kushik.dto.response.UserDto;
 import dev.shetel.kushik.mapper.AuthMapper;
 import dev.shetel.kushik.model.enumeration.UserRole;
 import dev.shetel.kushik.security.JwtTokenUtil;
@@ -37,7 +36,7 @@ public class AuthService {
         }
 
         CreateUserRequest createRequest = authMapper.toCreateUserRequest(request);
-        UserDto user = userService.createUser(createRequest);
+        userService.createUser(createRequest);
         return login(
                 authMapper.toLoginRequest(request)
         );

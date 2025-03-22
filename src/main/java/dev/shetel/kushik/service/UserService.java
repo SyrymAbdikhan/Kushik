@@ -2,7 +2,6 @@ package dev.shetel.kushik.service;
 
 import dev.shetel.kushik.dto.request.CreateUserRequest;
 import dev.shetel.kushik.dto.request.UpdateUserRequest;
-import dev.shetel.kushik.dto.response.UserDto;
 import dev.shetel.kushik.mapper.UserMapper;
 import dev.shetel.kushik.model.User;
 import dev.shetel.kushik.model.enumeration.UserRole;
@@ -23,10 +22,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    public UserDto getCurrentUser() {
+    public User getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email)
-                .map(userMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
@@ -37,12 +35,12 @@ public class UserService {
     }
 
     public boolean isCurrentUser(Long userId) {
-        UserDto currentUser = getCurrentUser();
+        User currentUser = getCurrentUser();
         return currentUser.getUserId().equals(userId);
     }
 
     @Transactional
-    public UserDto createUser(CreateUserRequest request) {
+    public User createUser(CreateUserRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new IllegalArgumentException("Username already taken");
         }
@@ -55,12 +53,11 @@ public class UserService {
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole() != null ? request.getRole() : UserRole.ADOPTER);
 
-        User savedUser = userRepository.save(user);
-        return userMapper.toDto(savedUser);
+        return userRepository.save(user);
     }
 
     @Transactional
-    public UserDto updateUser(Long userId, UpdateUserRequest request) {
+    public User updateUser(Long userId, UpdateUserRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
@@ -82,20 +79,16 @@ public class UserService {
             user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         }
 
-        User savedUser = userRepository.save(user);
-        return userMapper.toDto(savedUser);
+        return userRepository.save(user);
     }
 
-    public UserDto getUserById(Long userId) {
+    public User getUserById(Long userId) {
         return userRepository.findById(userId)
-                .map(userMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
-    public List<UserDto> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(userMapper::toDto)
-                .toList();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     @Transactional
