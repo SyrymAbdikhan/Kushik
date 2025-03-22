@@ -30,6 +30,12 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
+    public User getCurrentUserEntity() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
     public boolean isCurrentUser(Long userId) {
         UserDto currentUser = getCurrentUser();
         return currentUser.getUserId().equals(userId);
