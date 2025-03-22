@@ -32,7 +32,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/tags/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/locations/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
