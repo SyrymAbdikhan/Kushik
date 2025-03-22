@@ -33,18 +33,18 @@ public class ListingService {
     private final LocationRepository locationRepository;
 
     @Transactional
-    public ListingDto createListing(CreateListingRequest request) {
+    public Listing createListing(CreateListingRequest request) {
         User shelter = userService.getCurrentUserEntity();
         if (shelter.getRole() != UserRole.SHELTER) {
             throw new IllegalArgumentException("Only shelters can create listings");
         }
 
         Listing listing = listingMapper.toEntity(request, shelter);
-        return listingMapper.toDto(listingRepository.save(listing));
+        return listingRepository.save(listing);
     }
 
     @Transactional
-    public ListingDto updateListing(Long listingId, UpdateListingRequest request) {
+    public Listing updateListing(Long listingId, UpdateListingRequest request) {
         Listing listing = listingRepository.findById(listingId)
                 .orElseThrow(() -> new EntityNotFoundException("Listing not found"));
 
@@ -79,25 +79,21 @@ public class ListingService {
                     request.getTagIdsToRemove().contains(tag.getTagId()));
         }
 
-        Listing updatedListing = listingRepository.save(listing);
-        return listingMapper.toDto(updatedListing);
+        return listingRepository.save(listing);
     }
 
-    public List<ListingDto> getListings() {
-        return listingRepository.findAll().stream()
-                .map(listingMapper::toDto)
-                .toList();
+    public List<Listing> getListings() {
+        return listingRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public ListingDto getListingById(Long listingId) {
+    public Listing getListingById(Long listingId) {
         return listingRepository.findById(listingId)
-                .map(listingMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("Listing not found"));
     }
 
     @Transactional(readOnly = true)
-    public List<ListingDto> getListingsByTags(Set<Long> tagIds) {
+    public List<Listing> getListingsByTags(Set<Long> tagIds) {
         if (tagIds == null || tagIds.isEmpty()) {
             return getListings();
         }
@@ -107,22 +103,18 @@ public class ListingService {
             throw new IllegalArgumentException("One or more tags not found");
         }
 
-        return listingRepository.findByTags(tags).stream()
-                .map(listingMapper::toDto)
-                .toList();
+        return listingRepository.findByTags(tags);
     }
 
     @Transactional(readOnly = true)
-    public List<ListingDto> getListingsByLocation(Long locationId) {
+    public List<Listing> getListingsByLocation(Long locationId) {
         if (locationId == null) {
             return getListings();
         }
 
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() -> new EntityNotFoundException("Location not found"));
-        return listingRepository.findByLocation(location).stream()
-                .map(listingMapper::toDto)
-                .toList();
+        return listingRepository.findByLocation(location);
     }
 
     @Transactional

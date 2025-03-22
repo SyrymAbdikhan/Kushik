@@ -3,6 +3,8 @@ package dev.shetel.kushik.controller;
 import dev.shetel.kushik.dto.request.CreateListingRequest;
 import dev.shetel.kushik.dto.request.UpdateListingRequest;
 import dev.shetel.kushik.dto.response.ListingDto;
+import dev.shetel.kushik.mapper.ListingMapper;
+import dev.shetel.kushik.model.Listing;
 import dev.shetel.kushik.service.ListingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,16 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ListingController {
     private final ListingService listingService;
+    private final ListingMapper listingMapper;
 
     @PostMapping
     @PreAuthorize("hasRole('SHELTER')")
     public ResponseEntity<ListingDto> createListing(
             @Valid @RequestBody CreateListingRequest request
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(listingService.createListing(request));
+        Listing listing = listingService.createListing(request);
+        ListingDto listingDto = listingMapper.toDto(listing);
+        return ResponseEntity.status(HttpStatus.CREATED).body(listingDto);
     }
 
     @PutMapping("/{listingId}")
@@ -35,19 +39,26 @@ public class ListingController {
             @PathVariable Long listingId,
             @Valid @RequestBody UpdateListingRequest request
     ) {
-        return ResponseEntity.ok(listingService.updateListing(listingId, request));
+        Listing updatedListing = listingService.updateListing(listingId, request);
+        ListingDto listingDto = listingMapper.toDto(updatedListing);
+        return ResponseEntity.ok(listingDto);
     }
 
     @GetMapping("/{listingId}")
     public ResponseEntity<ListingDto> getListing(@PathVariable Long listingId) {
-        return ResponseEntity.ok(listingService.getListingById(listingId));
+        Listing listing = listingService.getListingById(listingId);
+        ListingDto listingDto = listingMapper.toDto(listing);
+        return ResponseEntity.ok(listingDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<ListingDto>> searchListings(
+    public ResponseEntity<List<ListingDto>> getListingsByTags(
             @RequestBody(required = false) Set<Long> tagIds
     ) {
-        return ResponseEntity.ok(listingService.getListingsByTags(tagIds));
+        List<Listing> listings = listingService.getListingsByTags(tagIds);
+        List<ListingDto> listingDtos = listings.stream()
+                .map(listingMapper::toDto).toList();
+        return ResponseEntity.ok(listingDtos);
     }
 
     @DeleteMapping("/{listingId}")
