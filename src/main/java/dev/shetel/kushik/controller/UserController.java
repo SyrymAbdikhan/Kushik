@@ -21,6 +21,13 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> getCurrentUser() {
+        User user = userService.getCurrentUser();
+        UserDto userDto = userMapper.toDto(user);
+        return ResponseEntity.ok(userDto);
+    }
+
     @GetMapping("/{userId}")
     @PreAuthorize("hasRole('ADMIN') or @userService.isCurrentUser(#userId)")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
