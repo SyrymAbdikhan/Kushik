@@ -44,7 +44,7 @@ public class ListingMapper {
                 .description(request.getDescription())
                 .shelter(shelter)
                 .location(locationService.getLocationById(request.getLocationId()))
-                .status(ListingStatus.PENDING)
+                .status(ListingStatus.AVAILABLE)
                 .build();
 
         if (request.getTagIds() != null) {
