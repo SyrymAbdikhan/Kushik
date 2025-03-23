@@ -43,7 +43,9 @@ public class ListingService {
         Listing listing = listingRepository.findById(listingId)
                 .orElseThrow(() -> new EntityNotFoundException("Listing not found"));
 
-        if (!listing.getShelter().getUserId().equals(userService.getCurrentUser().getUserId())) {
+        User user = userService.getCurrentUserEntity();
+        if (user.getRole() != UserRole.ADMIN &&
+                !listing.getShelter().getUserId().equals(user.getUserId())) {
             throw new AccessDeniedException("You don't own this listing");
         }
 
@@ -73,6 +75,10 @@ public class ListingService {
         if (request.getTagIdsToRemove() != null) {
             listing.getTags().removeIf(tag ->
                     request.getTagIdsToRemove().contains(tag.getTagId()));
+        }
+
+        if (request.getStatus() != null) {
+            listing.setStatus(ListingStatus.valueOf(request.getStatus()));
         }
 
         return listingRepository.save(listing);

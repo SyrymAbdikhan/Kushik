@@ -13,4 +13,5 @@ public class UpdateListingRequest {
     private Long locationId;
     private Set<Long> tagIdsToAdd;
     private Set<Long> tagIdsToRemove;
+    private String status;
 }
