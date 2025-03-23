@@ -53,7 +53,7 @@ public class ListingController {
 
     @GetMapping
     public ResponseEntity<List<ListingDto>> getListingsByTags(
-            @RequestBody(required = false) Set<Long> tagIds
+            @RequestParam(required = false) Set<Long> tagIds
     ) {
         List<Listing> listings = listingService.getListingsByTags(tagIds);
         List<ListingDto> listingDtos = listings.stream()

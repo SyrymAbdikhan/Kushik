@@ -97,7 +97,7 @@ public class ListingService {
         }
 
         Set<Tag> tags = new HashSet<>(tagService.getTagByIds(tagIds));
-        return listingRepository.findByTags(tags);
+        return listingRepository.findByTagsIn(tags);
     }
 
     @Transactional(readOnly = true)
