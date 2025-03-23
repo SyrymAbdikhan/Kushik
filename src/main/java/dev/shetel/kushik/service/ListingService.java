@@ -16,7 +16,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -68,7 +67,7 @@ public class ListingService {
         }
 
         if (request.getTagIdsToAdd() != null) {
-            Set<Tag> newTags = new HashSet<>(tagService.getTagByIds(request.getTagIdsToAdd()));
+            Set<Tag> newTags = tagService.getTagByIds(request.getTagIdsToAdd());
             listing.getTags().addAll(newTags);
         }
 
@@ -96,7 +95,7 @@ public class ListingService {
             return getListings();
         }
 
-        Set<Tag> tags = new HashSet<>(tagService.getTagByIds(tagIds));
+        Set<Tag> tags = tagService.getTagByIds(tagIds);
         return listingRepository.findByTagsIn(tags);
     }
 

@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -42,11 +43,11 @@ public class TagService {
         return tagRepository.findByIsPrimary(false);
     }
 
-    public List<Tag> getTagByIds(Set<Long> ids) {
+    public Set<Tag> getTagByIds(Set<Long> ids) {
         List<Tag> foundTags = tagRepository.findAllById(ids);
         if(foundTags.size() != ids.size()) {
             throw new EntityNotFoundException("Not all specified tag IDs exist");
         }
-        return foundTags;
+        return new HashSet<>(foundTags);
     }
 }
