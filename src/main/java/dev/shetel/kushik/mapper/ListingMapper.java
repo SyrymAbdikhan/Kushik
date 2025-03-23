@@ -6,13 +6,11 @@ import dev.shetel.kushik.model.Listing;
 import dev.shetel.kushik.model.Tag;
 import dev.shetel.kushik.model.User;
 import dev.shetel.kushik.model.enumeration.ListingStatus;
-import dev.shetel.kushik.repository.LocationRepository;
-import dev.shetel.kushik.repository.TagRepository;
-import jakarta.persistence.EntityNotFoundException;
+import dev.shetel.kushik.service.LocationService;
+import dev.shetel.kushik.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,8 +20,8 @@ public class ListingMapper {
     private final UserMapper userMapper;
     private final LocationMapper locationMapper;
     private final TagMapper tagMapper;
-    private final LocationRepository locationRepository;
-    private final TagRepository tagRepository;
+    private final LocationService locationService;
+    private final TagService tagService;
 
     public ListingDto toDto(Listing listing) {
         return ListingDto.builder()
@@ -45,13 +43,12 @@ public class ListingMapper {
                 .title(request.getTitle())
                 .description(request.getDescription())
                 .shelter(shelter)
-                .location(locationRepository.findById(request.getLocationId())
-                        .orElseThrow(() -> new EntityNotFoundException("Location not found")))
+                .location(locationService.getLocationById(request.getLocationId()))
                 .status(ListingStatus.PENDING)
                 .build();
 
         if (request.getTagIds() != null) {
-            Set<Tag> tags = new HashSet<>(tagRepository.findAllById(request.getTagIds()));
+            Set<Tag> tags = tagService.getTagByIds(request.getTagIds());
             listing.setTags(tags);
         }
 
