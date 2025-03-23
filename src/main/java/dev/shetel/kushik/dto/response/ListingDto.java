@@ -17,5 +17,6 @@ public class ListingDto {
     private LocationDto location;
     private Set<TagDto> tags;
     private ListingStatus status;
+    private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
 }

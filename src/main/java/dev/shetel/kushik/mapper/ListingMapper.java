@@ -34,6 +34,7 @@ public class ListingMapper {
                         .map(tagMapper::toDto)
                         .collect(Collectors.toSet()))
                 .status(listing.getStatus())
+                .updatedAt(listing.getUpdatedAt())
                 .createdAt(listing.getCreatedAt())
                 .build();
     }
