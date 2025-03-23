@@ -52,7 +52,7 @@ public class ListingController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ListingDto>> getListingsByTags(
+    public ResponseEntity<List<ListingDto>> getListings(
             @RequestParam(required = false) Set<Long> tagIds
     ) {
         List<Listing> listings = listingService.getListingsByTags(tagIds);

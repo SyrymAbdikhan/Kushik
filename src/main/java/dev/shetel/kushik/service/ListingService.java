@@ -4,7 +4,6 @@ import dev.shetel.kushik.dto.request.CreateListingRequest;
 import dev.shetel.kushik.dto.request.UpdateListingRequest;
 import dev.shetel.kushik.mapper.ListingMapper;
 import dev.shetel.kushik.model.Listing;
-import dev.shetel.kushik.model.Location;
 import dev.shetel.kushik.model.Tag;
 import dev.shetel.kushik.model.User;
 import dev.shetel.kushik.model.enumeration.ListingStatus;
@@ -97,16 +96,6 @@ public class ListingService {
 
         Set<Tag> tags = tagService.getTagByIds(tagIds);
         return listingRepository.findByTagsIn(tags);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Listing> getListingsByLocation(Long locationId) {
-        if (locationId == null) {
-            return getListings();
-        }
-
-        Location location = locationService.getLocationById(locationId);
-        return listingRepository.findByLocation(location);
     }
 
     @Transactional
