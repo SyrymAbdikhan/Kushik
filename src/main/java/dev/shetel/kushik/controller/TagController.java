@@ -23,9 +23,10 @@ public class TagController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<TagDto> createTag(@Valid @RequestBody CreateTagRequest request) {
-        Tag tag = tagService.createTag(request);
-        TagDto tagDto = tagMapper.toDto(tag);
+    public ResponseEntity<List<TagDto>> createTags(@Valid @RequestBody List<CreateTagRequest> requests) {
+        List<Tag> tags = tagService.createTags(requests);
+        List<TagDto> tagDto = tags.stream()
+                .map(tagMapper::toDto).toList();
         return ResponseEntity.status(HttpStatus.CREATED).body(tagDto);
     }
 

@@ -1,30 +1,50 @@
 package dev.shetel.kushik.service;
 
 import dev.shetel.kushik.dto.request.CreateTagRequest;
-import dev.shetel.kushik.mapper.TagMapper;
 import dev.shetel.kushik.model.Tag;
 import dev.shetel.kushik.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TagService {
     private final TagRepository tagRepository;
-    private final TagMapper tagMapper;
 
-    public Tag createTag(CreateTagRequest request) {
-        if (tagRepository.existsByName(request.getName())) {
-            throw new IllegalArgumentException("Tag already exists");
+    @Transactional
+    public List<Tag> createTags(List<CreateTagRequest> requests) {
+        List<Tag> existingTags = tagRepository.findByNameIn(
+                requests.stream()
+                        .map(CreateTagRequest::getName)
+                        .collect(Collectors.toSet())
+        );
+
+        List<String> existingTagNames = existingTags.stream()
+                .map(Tag::getName)
+                .toList();
+
+        List<Tag> newTags = requests.stream()
+                .filter(tag -> !existingTagNames.contains(tag.getName()))
+                .map(tag -> Tag.builder()
+                        .name(tag.getName())
+                        .isPrimary(tag.isPrimary())
+                        .build())
+                .toList();
+
+        List<Tag> savedTags = new ArrayList<>();
+        if(!newTags.isEmpty()) {
+            savedTags = tagRepository.saveAll(newTags);
         }
 
-        Tag tag = tagMapper.toEntity(request);
-        return tagRepository.save(tag);
+        return savedTags;
     }
 
     public void removeTag(Long tagId) {
