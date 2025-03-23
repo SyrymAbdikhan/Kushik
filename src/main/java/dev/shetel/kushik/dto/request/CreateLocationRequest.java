@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class CreateLocationRequest {
-    @NotBlank
+    @NotBlank(message = "City was not provided")
     private String city;
 
-    @NotBlank
-    @Size(min = 2, max = 2)
+    @NotBlank(message = "CountryCode was not provided")
+    @Size(min = 2, max = 2, message = "CountryCode must be 2 characters long")
     private String countryCode;
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class CreateTagRequest {
-    @NotBlank
+    @NotBlank(message = "Name was not provided")
     private String name;
 
     private boolean primary;

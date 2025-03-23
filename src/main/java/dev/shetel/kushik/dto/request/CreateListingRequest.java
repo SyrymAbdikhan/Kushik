@@ -8,8 +8,8 @@ import java.util.Set;
 
 @Data
 public class CreateListingRequest {
-    @NotBlank
-    @Size(max = 250)
+    @NotBlank(message = "Title was not provided")
+    @Size(max = 250, message = "Title can not exceed {max} characters")
     private String title;
 
     private String description;

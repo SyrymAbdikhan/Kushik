@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 public class CreateApplicationRequest {
-    @NotNull
+    @NotNull(message = "ListingId was not provided")
     private Long listingId;
 
-    @NotBlank
+    @NotBlank(message = "Message was not provided")
     private String message;
 }

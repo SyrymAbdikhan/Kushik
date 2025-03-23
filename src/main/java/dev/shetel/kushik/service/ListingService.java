@@ -78,7 +78,7 @@ public class ListingService {
         }
 
         if (request.getStatus() != null) {
-            listing.setStatus(ListingStatus.valueOf(request.getStatus()));
+            listing.setStatus(request.getStatus());
         }
 
         return listingRepository.save(listing);
