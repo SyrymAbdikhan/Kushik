@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    restart: always
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+    networks:
+      - kushik-network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: .
+    env_file: ".env"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - kushik-network
+
+volumes:
+  pgdata:
+
+networks:
+  kushik-network:
+    driver: bridge
