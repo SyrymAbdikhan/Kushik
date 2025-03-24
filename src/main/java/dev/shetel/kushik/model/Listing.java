@@ -15,7 +15,10 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "listings")
+@Table(name = "listings", indexes = {
+        @Index(name = "idx_listings_status", columnList = "status"),
+        @Index(name = "idx_listings_location", columnList = "location_id")
+})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

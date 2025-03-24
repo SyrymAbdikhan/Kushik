@@ -15,7 +15,9 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "applications", uniqueConstraints = @UniqueConstraint(
         columnNames = {"adopter_id", "listing_id"}
-))
+), indexes = {
+        @Index(name = "idx_applications_listing", columnList = "listing_id"),
+})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
