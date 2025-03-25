@@ -79,6 +79,10 @@ public class UserService {
             user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         }
 
+        if (request.getRole() != null) {
+            user.setRole(request.getRole());
+        }
+
         return userRepository.save(user);
     }
 

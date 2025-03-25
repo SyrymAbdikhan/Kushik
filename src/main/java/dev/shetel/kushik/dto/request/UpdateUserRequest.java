@@ -1,5 +1,6 @@
 package dev.shetel.kushik.dto.request;
 
+import dev.shetel.kushik.model.enumeration.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -14,4 +15,6 @@ public class UpdateUserRequest {
 
     @Size(min = 8, max=50, message = "Password must be between {min} and {max} characters long")
     private String password;
+
+    private UserRole role;
 }
